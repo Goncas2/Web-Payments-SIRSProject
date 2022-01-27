@@ -1,0 +1,63 @@
+{% extends "base.html" %} 
+{% block title %}Home{% endblock %}
+{% block content %} 
+<h3 align="center">Merchant Website</h3>
+<div class="row">
+
+    <div class="column">
+        <img src="../static/casaco.jpg" alt="#" class="img-fluid" height = "300" width="300">
+        
+        <div class="custom-control custom-checkbox image-checkbox">
+            {% if image1 : %}
+                <input type="checkbox" class="custom-control-input" id="image1" name="image1" onclick="checkBoxSelected(1)" checked>
+            {% else %}
+                <input type="checkbox" class="custom-control-input" id="image1" name="image1" onclick="checkBoxSelected(1)">
+            {% endif %}
+            <label class="custom-control-label" for="image1">Blue Jacket 40€</label>
+        </div>
+
+    </div>
+
+    <div class="column">
+        <img src="../static/casaco_azul.jpg" alt="#" class="img-fluid" height = "200" width="200">
+        
+        <div class="custom-control custom-checkbox image-checkbox">
+            {% if image2 : %}
+            <input type="checkbox" class="custom-control-input" id="image2" name="image2" onclick="checkBoxSelected(2)" checked>
+            {% else %}
+            <input type="checkbox" class="custom-control-input" id="image2" name="image2" onclick="checkBoxSelected(2)">
+            {% endif %}
+            <label class="custom-control-label" for="image2">Dark Blue Jacket 50€</label>
+        </div>
+    </div>
+
+    <div class="column">
+        <img src="../static/casaco_castanho.jpg" alt="#" class="img-fluid" height = "200" width="200">
+        
+        <div class="custom-control custom-checkbox image-checkbox">
+            {% if image3 : %}
+            <input type="checkbox" class="custom-control-input" id="image3" name="image3" onclick="checkBoxSelected(3)" checked>
+            {% else %}
+            <input type="checkbox" class="custom-control-input" id="image3" name="image3" onclick="checkBoxSelected(3)">
+            {% endif %}
+            <label class="custom-control-label" for="image3">Brown Jacket 70€</label>
+        </div>
+    </div>
+</div>
+
+<label>Total price: {% print(total)%} € </label>
+
+
+<form method="POST">
+    <button type="submit" class="btn btn-primary">Start Payment {% print(total)%} €</button>
+</form>
+
+
+<style> 
+    .row {
+        column-count: 3;
+        column-gap: 200px;
+    }
+</style>
+
+{% endblock %}

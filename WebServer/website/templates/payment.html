@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Payment{% endblock %}
+{% block content%}
+   
+    <h3 align="center">Payment Process</h3>
+    {% if url != None:%}
+    
+        <p></p>
+        <label> Click here to pay: </label> 
+        <a href="{{'%s'%url}}" class="btn btn-primary" rel="noopener noreferrer" target="_blank">PIS (Payment Inicial Service)</a>
+        <p></p>
+        
+    {% endif%}
+        
+        <label> Click here to check if payment is already done: </label> 
+        <button type="submit" class="btn btn-primary" onclick="status()">Check Payment status</button>
+        {% if status == 1:%}
+        <label> Payment was cancelled </label> 
+        {% elif status == 2:%}
+        <label> Payment in process, not confirmed yet </label> 
+        {% elif status == 3:%}
+        <label> Payment Confirmed </label> 
+        {%endif%}
+
+
+    
+       
+      
+{% endblock %}

@@ -1,0 +1,91 @@
+ENV['VAGRANT_DEFAULT_PROVIDER'] = "virtualbox"
+
+Vagrant.configure("2") do |config|
+
+  config.vbguest.auto_update = true
+  config.vm.box_check_update = false
+  
+  # Create GUI VM for client
+  config.vm.define "client", autostart: false do |cli|
+    cli.vm.box = "jacqinthebox/bionic-desktop"
+    cli.vm.hostname = "client"
+    cli.vm.network :private_network, ip: "192.168.56.13", virtualbox__intnet: "vmnet"
+    cli.vm.network "forwarded_port", guest: 80, host: 8083
+    # Provider Virtualbox
+    cli.vm.provider "virtualbox" do |vb|
+      vb.name = "client"
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      vb.memory = "2048"
+      vb.cpus = 2
+    end # of vb
+	cli.vm.provision "shell", path: "scriptsVM/local_dns.sh"
+  end # of cli
+  
+  # Create VM for website
+  config.vm.define "webserver", autostart: false do |web|
+    web.vm.box = "ubuntu/focal64"
+    web.vm.hostname = "webserver"
+    web.vm.network :private_network, ip: "192.168.56.10", virtualbox__intnet: "vmnet"
+    web.vm.network "forwarded_port", guest: 80, host: 8080
+    # Provider Virtualbox
+    web.vm.provider "virtualbox" do |vb|
+      vb.name = "webserver"
+      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      vb.memory = "1024"
+      vb.cpus = 1
+    end # of vb
+    # Provisioning
+    web.vm.provision "shell", path: "scriptsVM/all.sh"
+	web.vm.provision "shell", inline: "mkdir /home/vagrant/WebServer; sudo chmod 777 -R /home/vagrant/WebServer", :run => 'always'
+	web.vm.provision "file", source: "WebServer", destination: "$HOME/WebServer", :run => 'always'
+    web.vm.provision "shell", path: "scriptsVM/webserver.sh"
+    web.vm.provision "shell", inline: "cd /home/vagrant/WebServer; python3 main.py", :run => 'always'
+  end # of web
+
+
+
+  # Create VM for pisp
+  config.vm.define "pisp", autostart: false do |pisp|
+    pisp.vm.box = "ubuntu/focal64"
+    pisp.vm.hostname = "pisp"
+    pisp.vm.network :private_network, ip: "192.168.56.11", virtualbox__intnet: "vmnet"
+    pisp.vm.network "forwarded_port", guest: 80, host: 8081
+    # Provider Virtualbox
+    pisp.vm.provider "virtualbox" do |vb|
+      vb.name = "pisp"
+      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      vb.memory = "1024"
+      vb.cpus = 1
+    end # of vb
+    # Provisioning
+    pisp.vm.provision "shell", path: "scriptsVM/all.sh"
+	pisp.vm.provision "shell", inline: "mkdir /home/vagrant/PaymentInitiation; sudo chmod 777 -R /home/vagrant/PaymentInitiation", :run => 'always'
+	pisp.vm.provision "file", source: "PaymentInitiation", destination: "$HOME/PaymentInitiation", :run => 'always'
+    pisp.vm.provision "shell", path: "scriptsVM/pisp.sh"
+    pisp.vm.provision "shell", inline: "cd /home/vagrant/PaymentInitiation; python3 main.py", :run => 'always'
+  end # of srv
+
+
+  # Create VM for bank
+  config.vm.define "bank", autostart: false do |bank|
+    bank.vm.box = "ubuntu/focal64"
+    bank.vm.hostname = "bank"
+    bank.vm.network :private_network, ip: "192.168.56.12", virtualbox__intnet: "vmnet"
+    bank.vm.network "forwarded_port", guest: 80, host: 8082
+    # Provider Virtualbox
+    bank.vm.provider "virtualbox" do |vb|
+      vb.name = "bank"
+      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      vb.memory = "1024"
+      vb.cpus = 1
+    end # of vb
+    # Provisioning
+    bank.vm.provision "shell", path: "scriptsVM/all.sh"
+	bank.vm.provision "shell", inline: "mkdir /home/vagrant/Bank; sudo chmod 777 -R /home/vagrant/Bank", :run => 'always'
+	bank.vm.provision "file", source: "Bank", destination: "$HOME/Bank", :run => 'always'
+    bank.vm.provision "shell", path: "scriptsVM/bank.sh"
+    bank.vm.provision "shell", inline: "cd /home/vagrant/Bank; python3 main.py", :run => 'always'
+  end # of srv
+ 
+end

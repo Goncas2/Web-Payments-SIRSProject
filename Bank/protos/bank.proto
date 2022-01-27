@@ -1,0 +1,41 @@
+syntax = "proto3";
+package bank;
+// The server service definition.
+
+service bank {
+  // server back reply.
+  rpc confirmTransaction (PispRequest) returns (PispReply) {}
+  rpc getNonce (NonceRequest) returns (NonceReply) {}
+}
+
+message PispRequest {
+  EncryptedNonce nonce = 1;
+  EncryptedData data = 2;
+
+  string token = 3;
+  string iban = 4;
+  string name = 5;
+}
+
+message EncryptedNonce{
+  string hashedNonce = 1;
+  string encryptedNonce = 2;
+  string encryptedKey = 3;
+}
+
+message EncryptedData{
+  string hashedData = 1;
+  string encryptedData = 2;
+  string encryptedKey = 3;
+}
+
+message PispReply {
+  string status = 1;
+}
+
+message NonceRequest {
+  string token = 1;
+}
+message NonceReply {
+  string nonce = 1;
+}

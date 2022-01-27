@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content %}
+    <form method="POST">
+      <h3 align="center">Admin Page</h3>
+      
+      <p></p>  
+      <label for="username">Users in Database: </label>
+       
+      <ul class="list-group list-group-flush" id="users">
+
+        {% if users_length == 0%}       
+        <li class="list-group-item">
+          {{ "No Users Available" }}
+        </li>
+        {%endif%}
+
+        {% for u in users %}
+        <li class="list-group-item">
+          {{ u.username }}
+        </li>
+        {% endfor %}
+        
+      </ul>
+
+      <p></p> 
+      <label for="username">Delete all Database Users</label>
+      <button type="button" class="btn btn-primary" onclick="deleteDatabase()">Delete</button>
+      <p></p>  
+
+    </form>
+    {% endblock %}

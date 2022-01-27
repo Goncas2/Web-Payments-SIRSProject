@@ -1,0 +1,45 @@
+//to recompile this proto run
+//python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./backend/server.proto
+
+syntax = "proto3";
+
+service PIService {
+  rpc getNonce (UserToken) returns (Nonce){}
+  rpc requestURL (PaymentInfo) returns (URL) {}
+  rpc requestConfirmation (UserToken) returns (Confirmation) {}
+}
+
+message PaymentInfo{
+  EncryptedNonce Nonce = 1;
+  EncryptedData Data = 2;
+  UserToken token = 3;
+}
+
+message EncryptedNonce{
+  string hashedNonce = 1;
+  string encryptedNonce = 2;
+  string encryptedKey = 3;
+}
+
+message EncryptedData{
+  string hashedData = 1;
+  string encryptedData = 2;
+  string encryptedKey = 3;
+}
+
+message UserToken {
+  string token = 1;
+  string merchantName=2; 
+}
+
+message Nonce{
+  string nonce = 1;
+}
+
+message URL {
+  string url = 1;
+}
+
+message Confirmation {
+  string status = 1;
+}
