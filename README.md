@@ -196,4 +196,4 @@ Bruno Gomes 92432
 
 Marta Xavier 90752
 
-GonÃ§alo Fernandes 92468
+Gonçalo Fernandes 92468
