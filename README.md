@@ -2,6 +2,10 @@
 
 In this project we have a merchant website were the user is able to buy clothes, the payment process is processed by a PIS(Payment Initiation Service) and PIS is going to comunicate with a Bank execute the payment beetween User and Merchant bank accounts. 
 
+### Project Repository and README
+
+You can use [Github](https://github.com/Goncas2/Web-Payments-SIRSProject.git) for reading this README file. 
+
 In this README you will find the next sections:
 - General Information: Depth view about the project and technologies used.
 - Getting started: Prerequisites to run the project, building and run the application
@@ -186,10 +190,10 @@ to confirm the transaction
 
 ## Project Information
 
-### Project Repository
-
-We use [Github](####################) for versioning. 
-
 ### Authors
 
-List of [contributors](https://github.com/your/project/contributors) who participated in this project.
+Bruno Gomes 92432
+
+Marta Xavier 90752
+
+GonÃ§alo Fernandes 92468
